@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rolesville Time</title>
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: black;
+            color: rgba(255, 0, 0, 0.533);
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 4em;
+        }
+
+        #txt {
+            font-size: 6em;
+        }
+
+        .website {
+            margin-top: 30px;
+            font-size: 2em;
+            color: rgba(255, 0, 0, 0.533);
+        }
+
+        .chat-container {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            border-radius: 5px;
+            padding: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin: 5px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-input {
+            width: 100%;
+            padding: 5px;
+            margin-top: 5px;
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .delete-button {
+            cursor: pointer;
+            color: rgba(255, 0, 0, 0.8);
+            border: none;
+            background: transparent;
+            font-weight: bold;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="txt">Loading...</h1>
+        <div class="website">
+            <a href="https://rolesvilletime.com" target="_blank">rolesvilletime.com</a>
+            <br></br>
+            <p>A Lunch: 10:40 AM - 11:20 AM</p>
+            <p>Academy Lunch: 11:30 AM - 12:00 PM</p>
+            <p>B Lunch: 12:15 PM - 12:55 PM</p>
+        </div>
+    </div>
+
+    <div class="chat-container" id="chatContainer">
+        <div id="messages"></div>
+        <input type="text" class="chat-input" id="chatInput" placeholder="Enter your username" />
+        <div class="error-message" id="errorMessage"></div>
+    </div>
+
+    <script>
+        let offsetSecs = 0;
+
+        function update() {
+            let now = new Date();
+            now.setSeconds(now.getSeconds() + offsetSecs); // Adjust time with offset
+            let nxt = getNext();  // Get next event
+            let diff = nxt.date - now;  // Calculate time difference
+
+            diff = Math.floor(diff / 1000);  // Convert milliseconds to seconds
+            let secs = diff % 60;
+            diff = Math.floor(diff / 60);  // Convert to minutes
+            let mins = diff % 60;
+            diff = Math.floor(diff / 60);  // Convert to hours
+            let hrs = diff;
+
+            let timestr = `${(hrs === 0 ? "" : hrs.toString().padStart(2, '0') + ":")}${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            document.getElementById("txt").innerText = `${timestr} left of ${nxt.name}`;
+        }
+
+        function getNext() {
+            let now = new Date();
+            now.setSeconds(now.getSeconds() + offsetSecs);  // Adjust current time with offset
+            
+            // Define schedule times for today
+            let arr = [{
+                date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 7, 25),
+                name: "Before School"
+            }, {
+                date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 15),
+                name: "1st Period"
+            }, {
+                date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 40),
+                name: "2nd Period"
+            }, {
+                date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 55),
+                name: "3rd Period"
+            }, {
+                date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 14, 18),
+                name: "4th Period"
+            }];
+            
+            // Find the next event that hasn't passed yet
+            let nextEvent = arr.find(event => event.date > now);
+
+            // If all events have passed today, return the first event for the next day
+            if (!nextEvent) {
+                nextEvent = {
+                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 7, 25),
+                    name: "Before School"
+                };
+            }
+
+            return nextEvent;
+        }
+
+        // Chat functionality
+        const messagesContainer = document.getElementById("messages");
+        const chatInput = document.getElementById("chatInput");
+        const errorMessage = document.getElementById("errorMessage");
+        let username = "";
+        const chatHistory = []; // Store chat history
+        const registeredUsernames = new Set(); // Track registered usernames
+
+        // Blacklist of forbidden words
+        const forbiddenWords = ["nigger", "beaner"];
+
+        // Function to check if the message contains forbidden words
+        function containsForbiddenWords(message) {
+            return forbiddenWords.some(word => message.toLowerCase().includes(word));
+        }
+
+        // Function to display a message
+        function displayMessage(content) {
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message");
+            messageDiv.innerHTML = content;
+
+            // Create delete button
+            const deleteButton = document.createElement("button");
+            deleteButton.classList.add("delete-button");
+            deleteButton.innerText = "🗑️"; // Trash can emoji
+            deleteButton.onclick = function() {
+                if (content.startsWith(username + ":") || (username === "Anonymous" && content.includes("Anonymous:"))) {
+                    messageDiv.remove(); // Remove the message
+                }
+            };
+
+            messageDiv.appendChild(deleteButton);
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight; // Scroll to the bottom
+        }
+
+        // Function to send a message
+        function sendMessage(content) {
+            if (containsForbiddenWords(content)) {
+                errorMessage.innerText = "Your message contains inappropriate language and cannot be sent.";
+                return; // Prevent sending the message
+            }
+
+            const messageContent = `${username}: ${content}`;
+            displayMessage(messageContent);
+            chatHistory.push(messageContent); // Save to history
+            errorMessage.innerText = ""; // Clear error message
+        }
+
+        chatInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter" && chatInput.value.trim() !== "") {
+                const inputText = chatInput.value.trim();
+
+                if (!username) {
+                    // If username is not set, check if it's already registered
+                    if (registeredUsernames.has(inputText)) {
+                        errorMessage.innerText = "Username already taken. Please choose another.";
+                    } else {
+                        username = inputText; // Set username
+                        registeredUsernames.add(username); // Register username
+                        errorMessage.innerText = ""; // Clear error message
+                        displayMessage(`${username} joined as ${username}`);
+                        chatInput.placeholder = "Type here"; // Update placeholder
+                    }
+                } else {
+                    sendMessage(inputText);
+                }
+                chatInput.value = ""; // Clear the input field
+            }
+        });
+
+        // Load chat history when user joins later
+        function loadChatHistory() {
+            chatHistory.forEach(message => {
+                displayMessage(message);
+            });
+        }
+
+        // Call to load chat history
+        loadChatHistory();
+
+        setInterval(() => update(), 1000);  // Update every second
+    </script>
+</body>
+</html>
