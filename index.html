@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rolesville Time</title>
+    <title>Loading...</title>
+    <link rel="shortcut icon" type="image/jpg" href="https://cdn-icons-png.freepik.com/512/8469/8469896.png"/>
     <style>
         /* Basic reset */
         * {
@@ -68,6 +69,7 @@
 
             let timestr = `${(hrs === 0 ? "" : hrs.toString().padStart(2, '0') + ":")}${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
             document.getElementById("txt").innerText = `${timestr} left of ${nxt.name}`;
+            document.title = `${timestr}`; // Update the document title
         }
 
         function getNext() {
