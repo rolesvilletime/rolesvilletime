@@ -50,12 +50,6 @@
         </div>
     </div>
 
-    <div class="chat-container" id="chatContainer">
-        <div id="messages"></div>
-        <input type="text" class="chat-input" id="chatInput" placeholder="Enter your username" />
-        <div class="error-message" id="errorMessage"></div>
-    </div>
-
     <script>
         let offsetSecs = 0;
 
@@ -112,107 +106,7 @@
             return nextEvent;
         }
 
-        // Chat functionality
-        const messagesContainer = document.getElementById("messages");
-        const chatInput = document.getElementById("chatInput");
-        const errorMessage = document.getElementById("errorMessage");
-        let username = "";
-        const chatHistory = []; // Store chat history
-        const registeredUsernames = new Set(); // Track registered usernames
-
-        // Blacklist of forbidden words
-        const forbiddenWords = ["nigger", "beaner"];
-
-        // Function to check if the message contains forbidden words
-        function containsForbiddenWords(message) {
-            return forbiddenWords.some(word => message.toLowerCase().includes(word));
-        }
-
-        // Function to display a message
-        function displayMessage(content) {
-            const messageDiv = document.createElement("div");
-            messageDiv.classList.add("message");
-            messageDiv.innerHTML = content;
-
-            // Create delete button
-            const deleteButton = document.createElement("button");
-            deleteButton.classList.add("delete-button");
-            deleteButton.innerText = "🗑️"; // Trash can emoji
-            deleteButton.onclick = function() {
-                if (content.startsWith(username + ":") || (username === "Anonymous" && content.includes("Anonymous:"))) {
-                    messageDiv.remove(); // Remove the message
-                }
-            };
-
-            messageDiv.appendChild(deleteButton);
-            messagesContainer.appendChild(messageDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight; // Scroll to the bottom
-        }
-
-        // Function to send a message
-        function sendMessage(content) {
-            if (containsForbiddenWords(content)) {
-                errorMessage.innerText = "Your message contains inappropriate language and cannot be sent.";
-                return; // Prevent sending the message
-            }
-
-            const messageContent = `${username}: ${content}`;
-            displayMessage(messageContent);
-            chatHistory.push(messageContent); // Save to history
-            errorMessage.innerText = ""; // Clear error message
-        }
-
-        chatInput.addEventListener("keypress", function(event) {
-            if (event.key === "Enter" && chatInput.value.trim() !== "") {
-                const inputText = chatInput.value.trim();
-
-                if (!username) {
-                    // If username is not set, check if it's already registered
-                    if (registeredUsernames.has(inputText)) {
-                        errorMessage.innerText = "Username already taken. Please choose another.";
-                    } else {
-                        username = inputText; // Set username
-                        registeredUsernames.add(username); // Register username
-                        errorMessage.innerText = ""; // Clear error message
-                        displayMessage(`${username} joined as ${username}`);
-                        chatInput.placeholder = "Type here"; // Update placeholder
-                    }
-                } else {
-                    sendMessage(inputText);
-                }
-                chatInput.value = ""; // Clear the input field
-            }
-        });
-
-        // Load chat history when user joins later
-        function loadChatHistory() {
-            chatHistory.forEach(message => {
-                displayMessage(message);
-            });
-        }
-
-        // Call to load chat history
-        loadChatHistory();
-
         setInterval(() => update(), 1000);  // Update every second
-
-        const socket = new WebSocket('https://rolesvilletime.com:1001'); // Change to your server address
-
-        socket.onmessage = function(event) {
-            displayMessage(event.data);
-        };
-
-        function sendMessage(content) {
-            if (containsForbiddenWords(content)) {
-                errorMessage.innerText = "Your message contains inappropriate language and cannot be sent.";
-                return; // Prevent sending the message
-            }
-
-            const messageContent = `${username}: ${content}`;
-            socket.send(messageContent); // Send message to server
-            chatHistory.push(messageContent); // Save to history
-            errorMessage.innerText = ""; // Clear error message
-        }
     </script>
 </body>
 </html>
