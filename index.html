@@ -238,6 +238,24 @@
         loadChatHistory();
 
         setInterval(() => update(), 1000);  // Update every second
+
+        const socket = new WebSocket('https://rolesvilletime.com:1001'); // Change to your server address
+
+        socket.onmessage = function(event) {
+            displayMessage(event.data);
+        };
+
+        function sendMessage(content) {
+            if (containsForbiddenWords(content)) {
+                errorMessage.innerText = "Your message contains inappropriate language and cannot be sent.";
+                return; // Prevent sending the message
+            }
+
+            const messageContent = `${username}: ${content}`;
+            socket.send(messageContent); // Send message to server
+            chatHistory.push(messageContent); // Save to history
+            errorMessage.innerText = ""; // Clear error message
+        }
     </script>
 </body>
 </html>
