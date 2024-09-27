@@ -6,7 +6,6 @@
     <title>Loading...</title>
     <link rel="shortcut icon" type="image/jpg" href="https://cdn-icons-png.freepik.com/512/8469/8469896.png"/>
     <style>
-        /* Basic reset */
         * {
             margin: 0;
             padding: 0;
@@ -45,9 +44,6 @@
         <div class="website">
             <a href="https://rolesvilletime.com" target="_blank">rolesvilletime.com</a>
             <br></br>
-            <p>A Lunch: 10:40 AM - 11:20 AM</p>
-            <p>Academy Lunch: 11:30 AM - 12:00 PM</p>
-            <p>B Lunch: 12:15 PM - 12:55 PM</p>
         </div>
     </div>
 
@@ -56,27 +52,26 @@
 
         function update() {
             let now = new Date();
-            now.setSeconds(now.getSeconds() + offsetSecs); // Adjust time with offset
-            let nxt = getNext();  // Get next event
-            let diff = nxt.date - now;  // Calculate time difference
+            now.setSeconds(now.getSeconds() + offsetSecs);
+            let nxt = getNext();
+            let diff = nxt.date - now;
 
-            diff = Math.floor(diff / 1000);  // Convert milliseconds to seconds
+            diff = Math.floor(diff / 1000);
             let secs = diff % 60;
-            diff = Math.floor(diff / 60);  // Convert to minutes
+            diff = Math.floor(diff / 60);
             let mins = diff % 60;
-            diff = Math.floor(diff / 60);  // Convert to hours
+            diff = Math.floor(diff / 60);
             let hrs = diff;
 
             let timestr = `${(hrs === 0 ? "" : hrs.toString().padStart(2, '0') + ":")}${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-            document.getElementById("txt").innerText = `${timestr} left of ${nxt.name}`;
-            document.title = `${timestr}`; // Update the document title
+            document.getElementById("txt").innerText = `No School Today! 🥳🎉`;
+            document.title = `No School Today! 🥳🎉`;
         }
 
         function getNext() {
             let now = new Date();
-            now.setSeconds(now.getSeconds() + offsetSecs);  // Adjust current time with offset
+            now.setSeconds(now.getSeconds() + offsetSecs);
             
-            // Define schedule times for today
             let arr = [{
                 date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 7, 25),
                 name: "Before School"
@@ -94,10 +89,8 @@
                 name: "4th Period"
             }];
             
-            // Find the next event that hasn't passed yet
             let nextEvent = arr.find(event => event.date > now);
 
-            // If all events have passed today, return the first event for the next day
             if (!nextEvent) {
                 nextEvent = {
                     date: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 7, 25),
@@ -108,7 +101,7 @@
             return nextEvent;
         }
 
-        setInterval(() => update(), 1000);  // Update every second
+        setInterval(() => update(), 1000);
     </script>
 </body>
 </html>
