@@ -37,23 +37,6 @@
             font-size: 2em;
             color: rgba(255, 0, 0, 0.533);
         }
-
-        .button-container {
-            margin-top: 20px;
-        }
-
-        button {
-            padding: 10px 20px;
-            font-size: 1.5em;
-            background-color: red;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: darkred;
-        }
     </style>
 </head>
 <body>
@@ -66,21 +49,11 @@
             <p>Academy Lunch: 11:00 AM - 11:30 AM</p>
             <p>B Lunch: 11:45 AM - 12:25 PM</p>
         </div>
-
-        <div class="button-container">
-            <button id="homeroom-btn">old homeroom button dont use</button>
-        </div>
     </div>
 
     <script>
         let offsetSecs = 45;
-        let isHomeroomEnabled = false;
-
-        // Add event listener to the "Homeroom" button
-        document.getElementById('homeroom-btn').addEventListener('click', function() {
-            isHomeroomEnabled = !isHomeroomEnabled;  // Toggle homeroom flag
-            this.innerText = isHomeroomEnabled ? "old homeroom button dont use" : "old homeroom button dont use";  // Update button text
-        });
+        let isHomeroomEnabled = false; // Homeroom functionality is still available but the button is removed
 
         function update() {
             let now = new Date();
