@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Choose a day</title>
+    <title>Centered Buttons with Links</title>
     <style>
         body, html {
             height: 100%;
@@ -11,6 +11,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            background-color: black; /* Set background to black */
             font-family: Arial, sans-serif;
         }
         .button-container {
@@ -18,12 +19,19 @@
         }
         a {
             text-decoration: none;
-            margin: 10px;
+            margin: 20px;
         }
         button {
-            padding: 15px 30px;
-            font-size: 16px;
+            padding: 25px 60px; /* Increase padding for bigger buttons */
+            font-size: 20px; /* Increase font size */
             cursor: pointer;
+            background-color: red; /* Set buttons to red */
+            color: white; /* Set text color to white for contrast */
+            border: none;
+            border-radius: 10px; /* Rounded corners */
+        }
+        button:hover {
+            background-color: darkred; /* Change color on hover */
         }
     </style>
 </head>
