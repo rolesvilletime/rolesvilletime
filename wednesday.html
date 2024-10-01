@@ -41,19 +41,6 @@
         .button-container {
             margin-top: 20px;
         }
-
-        button {
-            padding: 10px 20px;
-            font-size: 1.5em;
-            background-color: red;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: darkred;
-        }
     </style>
 </head>
 <body>
@@ -67,21 +54,10 @@
             <p>B Lunch: 12:15 PM - 12:55 PM</p>
             <p>On Wednesday, classes with A lunch will have RAM time at the end of class, while classes with Academy or B lunch will have RAM time at the beginning of class</p>
         </div>
-
-        <div class="button-container"></div>
-            <button id="homeroom-btn">old homeroom button dont use</button>
-        </div>
     </div>
 
     <script>
         let offsetSecs = 45;
-        let isHomeroomEnabled = false;
-
-        // Add event listener to the "Homeroom" button
-        document.getElementById('homeroom-btn').addEventListener('click', function() {
-            isHomeroomEnabled = !isHomeroomEnabled;  // Toggle homeroom flag
-            this.innerText = isHomeroomEnabled ? "old homeroom button dont use" : "old homeroom button dont use";  // Update button text
-        });
 
         function update() {
             let now = new Date();
@@ -105,27 +81,7 @@
             let now = new Date();
             now.setSeconds(now.getSeconds() + offsetSecs);
 
-            let arr = isHomeroomEnabled ? [
-                {
-                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 7, 25),
-                    name: "Before School"
-                }, {
-                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 7, 50),
-                    name: "Homeroom"
-                }, {
-                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 15),
-                    name: "1st Period"
-                }, {
-                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 40),
-                    name: "2nd Period"
-                }, {
-                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 55),
-                    name: "3rd Period"
-                }, {
-                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 14, 18),
-                    name: "4th Period"
-                }
-            ] : [
+            let arr = [
                 {
                     date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 7, 25),
                     name: "Before School"
