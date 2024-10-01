@@ -66,21 +66,11 @@
             <p>Academy Lunch: 11:30 AM - 12:00 PM</p>
             <p>B Lunch: 12:15 PM - 12:55 PM</p>
         </div>
-
-        <div class="button-container">
-            <button id="homeroom-btn">old homeroom button dont use</button>
-        </div>
     </div>
 
     <script>
         let offsetSecs = 45;
         let isHomeroomEnabled = false;
-
-        // Add event listener to the "Homeroom" button
-        document.getElementById('homeroom-btn').addEventListener('click', function() {
-            isHomeroomEnabled = !isHomeroomEnabled;  // Toggle homeroom flag
-            this.innerText = isHomeroomEnabled ? "old homeroom button dont use" : "old homeroom button dont use";  // Update button text
-        });
 
         function update() {
             let now = new Date();
