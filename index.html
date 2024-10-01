@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Centered Buttons with Links</title>
+    <title>Cool Hover Animation Buttons</title>
     <style>
         body, html {
             height: 100%;
             margin: 0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            background-color: black; /* Set background to black */
+            background-color: black;
             font-family: Arial, sans-serif;
         }
         .button-container {
@@ -22,16 +23,30 @@
             margin: 20px;
         }
         button {
-            padding: 25px 60px; /* Increase padding for bigger buttons */
-            font-size: 20px; /* Increase font size */
+            padding: 25px 60px;
+            font-size: 20px;
             cursor: pointer;
-            background-color: red; /* Set buttons to red */
-            color: white; /* Set text color to white for contrast */
+            background-color: red;
+            color: white;
             border: none;
-            border-radius: 10px; /* Rounded corners */
+            border-radius: 10px;
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
         }
         button:hover {
-            background-color: darkred; /* Change color on hover */
+            background-color: darkred;
+            transform: scale(1.1); /* Slightly enlarges the button */
+            box-shadow: 0 8px 15px rgba(255, 0, 0, 0.5); /* Adds shadow on hover */
+        }
+        footer {
+            margin-top: 20px;
+            position: absolute;
+            bottom: 10px;
+            text-align: center;
+            width: 100%;
+        }
+        .small {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.8);
         }
     </style>
 </head>
@@ -43,5 +58,10 @@
         <a href="thursday"><button>Thursday</button></a>
         <a href="friday"><button>Friday</button></a>
     </div>
+    
+    <footer>
+        <p class="small">On Wednesday, classes with A lunch will have RAM time at the end of class, while classes with Academy or B lunch will have RAM time at the beginning of class</p>
+    </footer>
+    
 </body>
 </html>
