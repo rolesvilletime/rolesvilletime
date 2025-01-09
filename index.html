@@ -1,68 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rolesville Time</title>
-    <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background-color: black;
-            font-family: Arial, sans-serif;
-        }
-        .button-container {
-            text-align: center;
-        }
-        a {
-            text-decoration: none;
-            margin: 20px;
-        }
-        button {
-            padding: 25px 60px;
-            font-size: 20px;
-            cursor: pointer;
-            background-color: red;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        button:hover {
-            background-color: darkred;
-            transform: scale(1.1); /* Slightly enlarges the button */
-            box-shadow: 0 8px 15px rgba(255, 0, 0, 0.5); /* Adds shadow on hover */
-        }
-        footer {
-            margin-top: 20px;
-            position: absolute;
-            bottom: 10px;
-            text-align: center;
-            width: 100%;
-        }
-        .small {
-            font-size: 15px;
-            color: rgba(255, 255, 255, 0.8);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rolesville Time</title>
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: black;
+      font-family: Arial, sans-serif;
+    }
+
+    .button-container {
+      text-align: center;
+      display: flex;
+      flex-direction: column; /* Stack the main container and the extra button vertically */
+      align-items: center;
+    }
+
+    .weekday-buttons {
+      display: flex; /* Align weekday buttons horizontally */
+    }
+
+    a {
+      text-decoration: none;
+      margin: 10px;
+    }
+
+    button {
+      padding: 25px 60px;
+      font-size: 20px;
+      cursor: pointer;
+      background-color: red;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    button:hover {
+      background-color: darkred;
+      transform: scale(1.1);
+      box-shadow: 0 8px 15px rgba(255, 0, 0, 0.5);
+    }
+
+    footer {
+      margin-top: 20px;
+      position: absolute;
+      bottom: 10px;
+      text-align: center;
+      width: 100%;
+    }
+
+    .small {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+  </style>
 </head>
 <body>
-    <div class="button-container">
-        <a href="monday"><button>Monday</button></a>
-        <a href="tuesday"><button>Tuesday</button></a>
-        <a href="wednesday"><button>Wednesday</button></a>
-        <a href="thursday"><button>Thursday</button></a>
-        <a href="friday"><button>Friday</button></a>
-        <a href="schedule"><button>Schedule</button>
+  <div class="button-container">
+    <div class="weekday-buttons"> 
+      <a href="monday"><button>Monday</button></a>
+      <a href="tuesday"><button>Tuesday</button></a>
+      <a href="wednesday"><button>Wednesday</button></a>
+      <a href="thursday"><button>Thursday</button></a>
+      <a href="friday"><button>Friday</button></a>
     </div>
-    
-    <footer>
-        <p class="small">On Wednesday, classes with A lunch will have RAM time at the end of class, while classes with Academy or B lunch will have RAM time at the beginning of class</p>
-    </footer>
-    
+    <a href="schedule"><button>Full Schedule</button></a> 
+  </div>
+
+  <footer>
+    <p class="small">On Wednesday, classes with A lunch will have RAM time at the end of class, while classes with Academy or B lunch will have RAM time at the beginning of class</p>
+  </footer>
 </body>
 </html>
