@@ -37,6 +37,28 @@
             font-size: 2em;
             color: rgba(255, 0, 0, 0.533);
         }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1.5em;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+
+        button:hover {
+            background-color: darkred;
+        }
+
+        button.selected {
+            background-color: darkred;
+        }
     </style>
 </head>
 <body>
@@ -45,15 +67,37 @@
         <div class="website">
             <a href="https://rolesvilletime.com">Back to Home</a>
             <br></br>
-            <p>A Lunch: 10:40 AM - 11:20 AM</p>
-            <p>Academy Lunch: 11:30 AM - 12:00 PM</p>
-            <p>B Lunch: 12:15 PM - 12:55 PM</p>
+            <p>A Lunch: 10:27 AM - 10:57 AM</p>
+            <p>B Lunch: 11:12 AM - 11:52 AM</p>
+            <p>C Lunch: 12:02 PM - 12:42 PM</p>
+        </div>
+        <div class="button-container">
+            <button onclick="selectLunch('A')" id="lunchA">A Lunch</button>
+            <button onclick="selectLunch('B')" id="lunchB">B Lunch</button>
+            <button onclick="selectLunch('C')" id="lunchC">C Lunch</button>
+            <button onclick="selectLunch('none')" id="lunchNone">No Lunch</button>
         </div>
     </div>
 
     <script>
         let offsetSecs = 45;
-        let isHomeroomEnabled = false;
+        let selectedLunch = 'none';
+
+        function selectLunch(lunch) {
+            selectedLunch = lunch;
+            // Reset all buttons
+            document.getElementById('lunchA').classList.remove('selected');
+            document.getElementById('lunchB').classList.remove('selected');
+            document.getElementById('lunchC').classList.remove('selected');
+            document.getElementById('lunchNone').classList.remove('selected');
+            
+            // Highlight selected button
+            if (lunch !== 'none') {
+                document.getElementById('lunch' + lunch).classList.add('selected');
+            } else {
+                document.getElementById('lunchNone').classList.add('selected');
+            }
+        }
 
         function update() {
             let now = new Date();
@@ -77,47 +121,59 @@
             let now = new Date();
             now.setSeconds(now.getSeconds() + offsetSecs);
 
-            let arr = isHomeroomEnabled ? [
+            let arr = [
                 {
                     date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 7, 25),
                     name: "Before School"
                 }, {
-                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 7, 50),
-                    name: "Homeroom"
-                }, {
-                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 15),
+                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 8, 56),
                     name: "1st Period"
                 }, {
-                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 40),
+                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 27),
                     name: "2nd Period"
-                }, {
-                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 55),
-                    name: "3rd Period"
-                }, {
-                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 14, 18),
-                    name: "4th Period"
-                }
-            ] : [
-                {
-                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 7, 25),
-                    name: "Before School"
-                }, {
-                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 8, 45),
-                    name: "1st Period"
-                }, {
-                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 15),
-                    name: "RAM Time"
-                }, {
-                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 40),
-                    name: "2nd Period"
-                }, {
-                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 55),
-                    name: "3rd Period"
-                }, {
-                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 14, 18),
-                    name: "4th Period"
                 }
             ];
+
+            // Add lunch periods based on selection
+            if (selectedLunch === 'A') {
+                arr.push({
+                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 27),
+                    name: "A Lunch"
+                });
+                arr.push({
+                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 57),
+                    name: "3rd Period"
+                });
+            } else if (selectedLunch === 'B') {
+                arr.push({
+                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 11, 12),
+                    name: "B Lunch"
+                });
+                arr.push({
+                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 11, 52),
+                    name: "3rd Period"
+                });
+            } else if (selectedLunch === 'C') {
+                arr.push({
+                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 2),
+                    name: "C Lunch"
+                });
+                arr.push({
+                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 42),
+                    name: "3rd Period"
+                });
+            } else {
+                // No lunch selected - full 3rd period
+                arr.push({
+                    date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 42),
+                    name: "3rd Period"
+                });
+            }
+
+            arr.push({
+                date: new Date(now.getFullYear(), now.getMonth(), now.getDate(), 14, 18),
+                name: "4th Period"
+            });
 
             let nextEvent = arr.find(event => event.date > now);
 
@@ -131,6 +187,8 @@
             return nextEvent;
         }
 
+        // Initialize with no lunch selected
+        selectLunch('none');
         setInterval(() => update(), 1000);
     </script>
 </body>
